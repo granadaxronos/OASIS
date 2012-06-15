@@ -1,8 +1,29 @@
+/*
+OASIS Control Software
+
+This firmware controls the entire smart irrigation system based on an Arcuino 328 and a DS1307 RTC chip.
+Version 0.1 has several control outputs and sensor inputs.
+
+Outputs
+  Solenoid
+  SSR
+  Buzzer or Vibrator
+  LED Time Display with MAX7219
+
+Inputs
+  Water level sensor
+  
+The codes are not for commercial use in the scope of CCL. 
+Coded for Arduino 1.0.1.
+
+*/
+
 //We always have to include the library
 #include "LedControl.h"
-#include <Time.h>  
 #include <Wire.h>  
 #include <DS1307RTC.h>  // a basic DS1307 library that returns time as a time_t
+#include <Time.h>
+#include <TimeAlarms.h>
 
 /*
  Now we need a LedControl to work with.
@@ -12,11 +33,20 @@
  pin 10 is connected to LOAD 
  We have only a single MAX72XX.
  */
+
+
+ void water_level_detection(void);
+ void Aerator_ON(void);
+ void Aerator_OFF(void);
+ void PUMP2_ON(void);
+ void PUMP2_OFF(void);
+ 
+ 
 LedControl lc=LedControl(12,11,10,1);
 
 /* we always wait a bit between updates of the display */
-unsigned long delaytime=200;
-unsigned long intensitydelay=60;
+unsigned long delaytime = 200;
+unsigned long intensitydelay = 60;
 time_t last_time;
 
 void setup() {
@@ -26,13 +56,31 @@ void setup() {
 
   pinMode(2, OUTPUT);     // BUZZER
   pinMode(3, INPUT);      // WATER LEVEL SENSOR
-  digitalWrite(3, HIGH);
-  pinMode(4, OUTPUT);
+  digitalWrite(3, HIGH);  // WATER LEVEL SENSOR PULL-UP
+  pinMode(4, OUTPUT);     // SOLENOID CONTROL OUTPUT
+  digitalWrite(4, LOW);
+  pinMode(5, INPUT);      // WATER LEVEL SENSOR
+  digitalWrite(5, HIGH);  // WATER LEVEL SENSOR PULL-UP
+  pinMode(6, OUTPUT);     // PUMP 01 UP 200
+  pinMode(7, OUTPUT);     // PUMP 02 UP 400
+  pinMode(8, OUTPUT);     // PUMP 03 AIR 
   
-  if(timeStatus()!= timeSet) 
+ 
+if(timeStatus()!= timeSet) 
      Serial.println("Unable to sync with the RTC");
   else
      Serial.println("RTC has set the system time");      
+
+  Alarm.alarmRepeat(1,55,0, Aerator_ON);  // 8:30am every day
+  Alarm.alarmRepeat(5,55,0, Aerator_OFF);  // 5:45pm every day 
+  Alarm.alarmRepeat(6,30,0, PUMP2_ON);  // 8:30am every day
+  Alarm.alarmRepeat(6,35,0, PUMP2_OFF);  // 5:45pm every day 
+//  Alarm.alarmRepeat(dowSaturday,8,30,30,WeeklyAlarm);  // 8:30:30 every Saturday 
+
+ 
+//  Alarm.timerRepeat(15, Repeats);            // timer for every 15 seconds    
+//  Alarm.timerOnce(10, OnceOnly);             // called once after 10 seconds 
+
 
   /*
    The MAX72XX is in power-saving mode on startup,
@@ -44,13 +92,15 @@ void setup() {
   lc.setIntensity(0,15);
   /* and clear the display */
   lc.clearDisplay(0);
-  delay(500);
+  (500);
   writeArduinoOn7Segment();
   intensitycycle();
   lc.clearDisplay(0);
-  delay(1000);
+  (1000);
   lc.setIntensity(0,12);
+  
 }
+
 
 void loop()
 {
@@ -72,25 +122,20 @@ void loop()
    }
   }
 
+
   t = now();
+
 
   if(t!=last_time)
    {
     if(timeStatus() == timeNeedsSync)
       Serial.println("System Clock is not Synched to the RTC");
       
-     digitalClockDisplay();  
-/*     digitalWrite(2,HIGH);
-     delay(1);
-     digitalWrite(2,LOW);
-*/
-//     digitalClockSerial();
-  }
-  
-  if(digitalRead(3) == LOW)
-    digitalWrite(4,HIGH);
-  else
-    digitalWrite(4,LOW);
+     digitalClockDisplay();
+   }
+
+     Alarm.delay(1);
+     water_level_detection();
 
      last_time = t;
      
@@ -260,4 +305,5 @@ time_t processSyncMessage() {
   }
   return 0;
 }
+
 
