@@ -23,6 +23,31 @@ void Aerator_OFF ()
   
 }
 
+void PUMP1_ON ()
+{
+
+ for (int i=1; i <= 2; i++){
+ digitalWrite(2, HIGH);
+ delay(300);
+ digitalWrite(2, LOW);
+ delay(700);
+ }
+
+ digitalWrite(6, HIGH); 
+  
+}
+
+void PUMP1_OFF ()
+{
+ 
+ digitalWrite(2, HIGH);
+ delay(2000);
+ digitalWrite(2, LOW);
+
+ digitalWrite(6, LOW); 
+  
+}
+
 void PUMP2_ON ()
 {
 

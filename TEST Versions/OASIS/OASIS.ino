@@ -38,6 +38,8 @@ Coded for Arduino 1.0.1.
  void water_level_detection(void);
  void Aerator_ON(void);
  void Aerator_OFF(void);
+ void PUMP1_ON(void);
+ void PUMP1_OFF(void);
  void PUMP2_ON(void);
  void PUMP2_OFF(void);
  
@@ -71,10 +73,17 @@ if(timeStatus()!= timeSet)
   else
      Serial.println("RTC has set the system time");      
 
+  Alarm.alarmRepeat(19,40,0, PUMP1_ON);  // 8:30am every day
+  Alarm.alarmRepeat(19,42,0, PUMP1_OFF);  // 5:45pm every day 
+  Alarm.alarmRepeat(19,50,0, PUMP2_ON);  // 8:30am every day
+  Alarm.alarmRepeat(19,52,0, PUMP2_OFF);  // 5:45pm every day 
+  Alarm.alarmRepeat(6,30,0, PUMP2_ON);  // 8:30am every day
+  Alarm.alarmRepeat(6,33,0, PUMP2_OFF);  // 5:45pm every day 
   Alarm.alarmRepeat(1,55,0, Aerator_ON);  // 8:30am every day
   Alarm.alarmRepeat(5,55,0, Aerator_OFF);  // 5:45pm every day 
-  Alarm.alarmRepeat(6,30,0, PUMP2_ON);  // 8:30am every day
-  Alarm.alarmRepeat(6,35,0, PUMP2_OFF);  // 5:45pm every day 
+  Alarm.alarmRepeat(20,0,0, Aerator_ON);  // 8:30am every day
+  Alarm.alarmRepeat(0,0,0, Aerator_OFF);  // 5:45pm every day 
+
 //  Alarm.alarmRepeat(dowSaturday,8,30,30,WeeklyAlarm);  // 8:30:30 every Saturday 
 
  
@@ -87,17 +96,21 @@ if(timeStatus()!= timeSet)
    we have to do a wakeup call
    */
    
+// digitalWrite(2, HIGH);
   lc.shutdown(0,false);
   /* Set the brightness to a medium values */
   lc.setIntensity(0,15);
   /* and clear the display */
   lc.clearDisplay(0);
   (500);
-  writeArduinoOn7Segment();
-  intensitycycle();
+//  writeArduinoOn7Segment();
+//  delay(500);
+//  digitalWrite(2, LOW);
+//  intensitycycle();
   lc.clearDisplay(0);
-  (1000);
   lc.setIntensity(0,12);
+  
+  
   
 }
 
@@ -134,7 +147,7 @@ void loop()
      digitalClockDisplay();
    }
 
-     Alarm.delay(1);
+     Alarm.delay(10);
      water_level_detection();
 
      last_time = t;
