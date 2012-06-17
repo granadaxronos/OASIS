@@ -73,16 +73,18 @@ if(timeStatus()!= timeSet)
   else
      Serial.println("RTC has set the system time");      
 
-  Alarm.alarmRepeat(19,40,0, PUMP1_ON);  // 8:30am every day
-  Alarm.alarmRepeat(19,42,0, PUMP1_OFF);  // 5:45pm every day 
-  Alarm.alarmRepeat(19,50,0, PUMP2_ON);  // 8:30am every day
-  Alarm.alarmRepeat(19,52,0, PUMP2_OFF);  // 5:45pm every day 
   Alarm.alarmRepeat(6,30,0, PUMP2_ON);  // 8:30am every day
   Alarm.alarmRepeat(6,33,0, PUMP2_OFF);  // 5:45pm every day 
-  Alarm.alarmRepeat(1,55,0, Aerator_ON);  // 8:30am every day
-  Alarm.alarmRepeat(5,55,0, Aerator_OFF);  // 5:45pm every day 
-  Alarm.alarmRepeat(20,0,0, Aerator_ON);  // 8:30am every day
-  Alarm.alarmRepeat(0,0,0, Aerator_OFF);  // 5:45pm every day 
+  Alarm.alarmRepeat(17,0,0, PUMP2_ON);  // 8:30am every day
+  Alarm.alarmRepeat(17,2,0, PUMP2_OFF);  // 5:45pm every day 
+  Alarm.alarmRepeat(06,0,0, PUMP1_ON);  // 8:30am every day
+  Alarm.alarmRepeat(06,02,0, PUMP1_OFF);  // 5:45pm every day 
+  Alarm.alarmRepeat(17,30,0, PUMP1_ON);  // 8:30am every day
+  Alarm.alarmRepeat(17,32,0, PUMP1_OFF);  // 5:45pm every day 
+  Alarm.alarmRepeat(0,0,0, Aerator_ON);  // 8:30am every day
+  Alarm.alarmRepeat(4,0,0, Aerator_OFF);  // 5:45pm every day 
+  Alarm.alarmRepeat(13,0,0, Aerator_ON);  // 8:30am every day
+  Alarm.alarmRepeat(16,59,59, Aerator_OFF);  // 5:45pm every day 
 
 //  Alarm.alarmRepeat(dowSaturday,8,30,30,WeeklyAlarm);  // 8:30:30 every Saturday 
 
@@ -147,7 +149,7 @@ void loop()
      digitalClockDisplay();
    }
 
-     Alarm.delay(10);
+     Alarm.delay(0);
      water_level_detection();
 
      last_time = t;

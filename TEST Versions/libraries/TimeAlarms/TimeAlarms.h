@@ -7,7 +7,7 @@
 
 #include "Time.h"
 
-#define dtNBR_ALARMS 6   // max is 255
+#define dtNBR_ALARMS 64  // max is 255
 
 #define USE_SPECIALIST_METHODS  // define this for testing
 
