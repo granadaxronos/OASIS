@@ -1,0 +1,60 @@
+
+======================================================================================
+
+OASIS
+
+Open-source Autonomous Smart Irrigation System
+
+======================================================================================
+
+
+This is a autonomous irrigation system for indoor plants. I'm working on this project
+for the people who want to have better farming experience at home.
+
+The system has many parts as following.
+
+1. Arduino UNO or Duemilanove
+2. Micro Drippers
+3. Motor Control SSR PDA1-202Z
+4. DS1307 or DS3231 RTC chip
+5. ULN2803 
+6. Solenoid Valve DC24V 1/4" or 6mm
+7. Submersible Pump 20W, 40W
+8. Air Pump SH-A2
+9. 1/4" or 6mm tubes
+10. 1/8" or 4mm tubes
+11. Various fittings
+12. Water Level Sensor DM-F40
+13. Aluminum Pipes of inner 10mm
+14. 25 Litre Water Bucket
+etc.
+
+For now, the system doesn't have any soil moisture sensors or control panel.
+In the future, it will be equipped with temperature, humidity, light intensity,
+and soil moisture sensors.
+
+The arduino control module will be expanded as a scheduler for complex process.
+The process scheduler might be evolved into another system and it will be called
+'XRONOS' for its timing control capability.
+
+I'll donate this effort for anyone who wants to make something out of his/her creative
+mind. Let's do it together~
+
+
+
+Best wishes,
+
+
+
+Pao Nan
+
+
+*This project will be under the Creative Commons License, not for commercial use.
+
+*You'd better check out my YOUTUBE video upload at http://youtu.be/IorhKKeJkHE .
+
+
+ 
+
+
+
